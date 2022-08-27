@@ -1,44 +1,58 @@
 /// This will make sure the time changes everyday
 
-$(".time-checking").each(function () {
-  var currentHour = moment().hour();
-  var blockHour = $(this).attr("id");
-  console.log("Current Hour: " + currentHour);
-  console.log("BLock Hour: " + blockHour);
+// $(".time-checking").each(function () {
+//   var currentHour = moment().hour();
+//   var blockHour = $(this).attr("id");
+//   console.log("Current Hour: " + currentHour);
+//   console.log("BLock Hour: " + blockHour);
 
-  if (currentHour > blockHour) {
-    $(".hour").addClass(".past");
-  } else if (currentHour < blockHour) {
-    $(".hour").addClass(".future");
-  } else {
-    $(".hour").addClass(".present");
-  }
-});
+//   if (moment().hour() > blockHour) {
+//     $(".hour").addClass(".past");
+//   } else if (moment().hour() < blockHour) {
+//     $(".hour").addClass(".future");
+//   } else {
+//     $(".hour").addClass(".present");
+//   }
+// });
 
 function time() {
   let today = moment();
 
   $("#currentDay").text(today.format("dddd, MMMM Do YYYY")); // This is the format of the day eg Friday, August 26th 2022
 
-  var checkTime = function () {
-    var hour = $(".hour").text().trim();
+  let now = moment().format("kk");
+  for (let i = 0; i < arrayForSchedule.length; i++) {
+    arrayForSchedule[i].removeClass("future past present");
 
-    var time = moment(hour, "LT");
-    console.log(time);
-
-    $(".hour").removeClass(".present .past .future");
-
-    if (moment().isAfter(time)) {
-      $(".hour").addClass(".past");
-    } else if (moment().isBefore(time)) {
-      $(".hour").addClass(".future");
+    if (now > arrayForSchedule[i].data("hour")) {
+      arrayForSchedule[i].addClass("past");
+    } else if (now === arrayForSchedule[i].attr("data-hour")) {
+      arrayForSchedule[i].addClass("present");
     } else {
-      $(".hour").addClass(".present");
+      arrayForSchedule[i].addClass("future");
     }
-  };
-
-  checkTime();
+  }
 }
+
+// var checkTime = function () {
+//   var hour = $(".hour").text().trim();
+
+//   var time = moment(hour, "LT");
+//   console.log(time);
+
+//   $(".hour").removeClass(".present .past .future");
+
+//   if (moment().isAfter(time)) {
+//     $(".hour").addClass(".past");
+//   } else if (moment().isBefore(time)) {
+//     $(".hour").addClass(".future");
+//   } else {
+//     $(".hour").addClass(".present");
+//   }
+//   };
+
+//   checkTime();
+// }
 
 window.addEventListener("load", (event) => {
   // Will make sure the time function is called when page loads
