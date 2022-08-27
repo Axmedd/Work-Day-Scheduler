@@ -1,4 +1,20 @@
 /// This will make sure the time changes everyday
+
+$(".time-checking").each(function () {
+  var currentHour = moment().hour();
+  var blockHour = $(this).attr("id");
+  console.log("Current Hour: " + currentHour);
+  console.log("BLock Hour: " + blockHour);
+
+  if (currentHour > blockHour) {
+    $(".hour").addClass(".past");
+  } else if (currentHour < blockHour) {
+    $(".hour").addClass(".future");
+  } else {
+    $(".hour").addClass(".present");
+  }
+});
+
 function time() {
   let today = moment();
 
@@ -43,7 +59,7 @@ let time3pm = $("#3PM");
 let time4pm = $("#4PM");
 let time5pm = $("#5PM");
 
-let arrayForShedule = [
+let arrayForSchedule = [
   time9am,
   time10am,
   time11am,
@@ -61,7 +77,7 @@ setInterval(time(), 1000);
 
 // render schedule saved in local storage
 function renderLastRegistered() {
-  for (let el of arrayForShedule) {
+  for (let el of arrayForSchedule) {
     el.val(localStorage.getItem("time block " + el.data("hour")));
   }
 }
@@ -72,9 +88,9 @@ function taskSubmitter(event) {
 
   let clickedBtn = $(event.currentTarget);
 
-  let targetTimeBlock = textTarget.data("hour");
-
   let textTarget = clickedBtn.siblings("textarea");
+
+  let targetTimeBlock = textTarget.data("hour");
 
   localStorage.setItem("time block " + targetTimeBlock, textTarget.val());
 }
